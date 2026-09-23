@@ -1,8 +1,13 @@
-cmake_minimum_required(VERSION 3.23)
-project(mikroprojekt3)
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra -Wpedantic")
+cmake_minimum_required(VERSION 3.16)
+project(TicTacToe LANGUAGES CXX)
 
-include_directories(include)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(src)
+add_compile_options(-O3 -Wall -Wextra -pedantic)
+
+add_library(tictactoe_lib src/TicTacToe.cpp)
+target_include_directories(tictactoe_lib PUBLIC include)
+
+add_executable(tic-tac-toe src/main.cpp)
+target_link_libraries(tic-tac-toe PRIVATE tictactoe_lib)

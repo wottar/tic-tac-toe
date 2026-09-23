@@ -3,30 +3,36 @@
 
 #include <iostream>
 #include <vector>
+#include <utility>
 
 class TicTacToe {
 private:
-    const char EMPTY = ' ';
-    const char HUMAN = 'O';
-    const char AI = 'X';
+    static constexpr char EMPTY = ' ';
+    static constexpr char HUMAN = 'O';
+    static constexpr char AI = 'X';
 
-    int board_size;
-    int win_length;
-    int max_depth = 7;
-    std::vector<std::vector<char>> board;
+    size_t board_size;
+    size_t win_length;
+    size_t max_depth;
+    std::vector<char> board;
+
+    inline size_t getIndex(size_t row, size_t col) const {
+        return row * board_size + col;
+    }
+
+    int evaluateBoard();
+    int minmax(size_t depth, int alpha, int beta, bool isMaximizing, size_t last_row, size_t last_col);
 
 public:
-    TicTacToe(int boardSize, int winLength);
+    TicTacToe(size_t boardSize, size_t winLength, size_t maxDepth = 6);
     void playGame();
-    void initializeBoard();
-    bool isMoveValid(int row, int col);
-    void makeMove(int row, int col, char player);
-    bool checkWin(int row, int col, char player);
-    bool isBoardFull();
-    char checkWinner();
-    int minmax(int depth, int alpha, int beta, bool isMaximizing);
-    std::pair<int, int> findBestMove();
-    void printBoard();
-    int evaluateBoard();
+    bool isMoveValid(size_t row, size_t col) const;
+    void makeMove(size_t row, size_t col, char player);
+    void undoMove(size_t row, size_t col);
+    bool checkWinAt(size_t row, size_t col, char player) const;
+    bool isBoardFull() const;
+    std::pair<size_t, size_t> findBestMove();
+    void printBoard() const;
 };
-#endif  // TICTACTOE_H
+
+#endif // TICTACTOE_H
